@@ -1,3 +1,4 @@
+window.load('js/test.js');
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $http) {
@@ -62,5 +63,3 @@ angular.module('starter.controllers', [])
         { title: 'Cowbell', id: 6 }
     ];
 })
-
-.controller('PlaylistCtrl', function($scope, $stateParams) {});

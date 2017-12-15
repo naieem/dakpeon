@@ -1,0 +1,11 @@
+{
+	"modules":[
+		{
+			"name":"login",
+			"dependency":[
+				"login",
+				"login.service"
+			]
+		}
+	]
+}
