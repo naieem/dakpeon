@@ -36,7 +36,7 @@ angular.module('starter.controllers', [])
         obj = $scope.loginData;
         $http({
             method: 'POST',
-            url: 'http://localhost:8083/api/login',
+            url: 'https://dakpeon.herokuapp.com/api/login',
             data: obj
         }).then(function successCallback(response) {
             debugger;
