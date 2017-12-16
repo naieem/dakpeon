@@ -40,7 +40,7 @@ angular.module('starter.controllers', [])
             url: 'https://dakpeon.herokuapp.com/api/login',
             data: obj
         }).then(function successCallback(response) {
-            debugger;
+            
             var t = "sdf";
             if (response.data.token)
                 localStorage.setItem("token", response.data.token.toString());

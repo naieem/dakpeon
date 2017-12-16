@@ -7,6 +7,7 @@
     s.async = true;
     s.src = url;
     var x = document.getElementsByTagName('head')[0];
+    //var x=window.document.body;
     x.appendChild(s);
   }
   w.observable=[];

@@ -1,11 +1,32 @@
 {
-	"modules":[
-		{
-			"name":"login",
-			"dependency":[
-				"login",
-				"login.service"
-			]
-		}
-	]
+  "modules": [
+  {
+    "name": "login",
+    "dependency": [
+      "login.controller",
+      "login.service"
+    ]
+  },
+  {
+    "name": "home",
+    "dependency": [
+    ]
+  }],
+  "navigations": [
+  {
+    "name": "app.login",
+    "definition":
+    {
+      "name": "login",
+      "url": "/login",
+      "views":
+      {
+        "menuContent":
+        {
+          "templateUrl": "templates/login.html",
+          "controller": "loginController"
+        }
+      }
+    }
+  }]
 }
