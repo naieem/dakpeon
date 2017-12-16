@@ -1,10 +1,11 @@
 (function(w) {
   'user strict';
-  /*=============================================
-  =    Bootstrapping the main Module            =
-  =============================================*/
 
-  angular.module('dakpeon', w.modules)
+  // =============================================
+  //    Bootstrapping the main Module            
+  // =============================================
+
+  angular.module(w.appName, w.modules)
 
     .run(function($ionicPlatform) {
       $ionicPlatform.ready(function() {
@@ -28,7 +29,9 @@
       // if none of the above states are matched, use this as the fallback
       $urlRouterProvider.otherwise('/app/login');
 
-    }).factory('authorizationInjector', function() {
+    })
+
+    .factory('authorizationInjector', function() {
       var token = localStorage.getItem("token");
       var authorizationInjector = {
         request: function(config) {
@@ -48,11 +51,10 @@
   
   function configureRouting($stateProvider){
     for (var i = 0; i < w.navigationMenu.length; i++) {
-        //if (!$state.get(w.navigationMenu[i].name)) {
         $stateProvider.state(w.navigationMenu[i].name, w.navigationMenu[i].definition);
         if (w.navigationMenu[i].Children) {
           for (var j = 0; j < w.navigationMenu[i].Children.length; j++) {
-            debugger;
+            
             $stateProvider.state(w.navigationMenu[i].Children[j].name, w.navigationMenu[i].Children[j].definition);
           }
         }

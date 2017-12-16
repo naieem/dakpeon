@@ -1,13 +1,13 @@
 (function(w) {
-  w.registerAction('bootstrapDakpeon', bootstrapDakpeon);
+  w.registerAction('bootstrap', bootstrapDakpeon);
 
   function bootstrapDakpeon() {
-    
+
     w.load("js/bootstrap.js");
-    setTimeout(function() {      
-      var t = document.getElementById('load_module');
-      angular.element(t).ready(function() {
-        angular.bootstrap(document, ['dakpeon']);
+    setTimeout(function() {
+      var moduleContainer = document.getElementById('load_module');
+      angular.element(moduleContainer).ready(function() {
+        angular.bootstrap(document, [w.appName]);
       });
     }, 100);
   }

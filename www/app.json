@@ -1,4 +1,5 @@
 {
+  "appName": "dakpeon",
   "modules": [
   {
     "name": "login",
@@ -19,8 +20,7 @@
       "name": "app",
       "url": "/app",
       "abstruct": true,
-      "templateUrl": "templates/menu.html",
-      "controller": "loginController"
+      "templateUrl": "templates/menu.html"
     },
     "Children": [
     {

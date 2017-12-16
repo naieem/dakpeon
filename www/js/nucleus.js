@@ -1,30 +1,49 @@
 (function(w) {
   'use strict';
-  /*----------  by default add ionic as dependency submodule  --------*/
 
-  w.modules = ['ionic'];
-  w.navigationMenu = [];
+  // ==============================================
+  // main variables to share between windows
+  // ==============================================
+
+  w.modules = ['ionic']; // by default add ionic as dependency submodule 
+  w.navigationMenu = []; // arrays of all navigation configuration
+  w.appName = ''; // main appname and main module name to be used in the bootstrap
   getConfiguration(); // getting modules configurations
 
 
-  /*=============================================
-  = getting modules mail files
-  =============================================*/
+  // =================================================
+  // getting modules main configuration from app.json
+  // =================================================
 
   function getConfiguration() {
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function() {
       if (request.readyState === 4) {
-        var modules = JSON.parse(request.response).modules;
+
+        /*----------  getting app configuration   ----------*/
+        var appConfiguration = JSON.parse(request.response);
+        /*----------  assigning appname or main module  ----------*/
+        w.appName = appConfiguration.appName;
+        /*----------  all the modules to load  ----------*/
+        var modules = appConfiguration.modules;
 
         for (var i = 0; i < modules.length; i++) {
           loadSingleScript(modules[i].name);
-          //saving modules array for using in bootstrap file for dependency injection
-          w.modules.push(modules[i].name); 
+          // ===============================
+          // saving modules for using
+          // in the bootstrap file
+          // as dependency
+          // ===============================          
+          w.modules.push(modules[i].name);
+          // =================================
+          // if modules main files are loaded
+          // this is called to load their
+          // dependend files
+          // =================================
           if ((i + 1) == modules.length) {
             setTimeout(function() {
-              loadDependencyFiles(JSON.parse(request.response));
+              loadDependencyFiles(appConfiguration);
             }, 100);
           }
         }
@@ -37,10 +56,13 @@
 
   /*=====  End of configuration  ======*/
 
-  /*----------  Loading module dependencies  ----------*/
-  
+
+  // =============================================
+  // function to load dependent files of
+  // main config modules
+  // =============================================
   function loadDependencyFiles(configuration) {
-    debugger;
+
     var modules = configuration.modules;
     for (var i = 0; i < modules.length; i++) {
       loadScript(modules[i].name, modules[i].dependency);
@@ -50,47 +72,40 @@
     }
   }
 
-
-  /*----------  loading navigations  ----------*/
-
+  // ================================================
+  // storing navigation values for using in routing
+  // and bootstrapping call to start execution
+  // of the main module
+  // ================================================
   function getNavigation(navigations) {
-    debugger;
+
     for (var i = 0; i < navigations.length; i++) {
       w.navigationMenu.push(navigations[i]);
-      /*----------  when all the modules are loaded  ----------*/
+      // ===========================================
+      // when all the module and navigations are
+      // loaded then bootstrap the main application
+      // ===========================================
       if ((i + 1) == navigations.length) {
-        debugger;
-        w.executeAction('bootstrapDakpeon');
+        w.executeAction('bootstrap');
       }
-      /*----------  all the domules are loaded  ----------*/
     }
   }
 
 
-  /**
-  
-  	Loading script to DOM:
-  	- Directory name from where files need to load
-  	- Array of files name to load
-  
-   */
+  /*----------  loading single script files  ----------*/
 
-  function loadSingleScript(filesName) {
-    w.load("modules/" + filesName + "/" + filesName + '.js');
+
+  function loadSingleScript(fileAndFolderName) {
+    w.load("modules/" + fileAndFolderName + "/" + fileAndFolderName + '.config.js');
   }
 
-  /**
-  
-  	Loading script to DOM:
-  	- Directory name from where files need to load
-  	- Array of files name to load
-  
-   */
+  /*----------  loading array of script file from given directory  ----------*/
+
 
   function loadScript(directoryName, filesArr) {
 
     for (var i = 0; i < filesArr.length; i++) {
-      debugger;
+
       w.load("modules/" + directoryName + "/" + filesArr[i] + '.js');
     }
   }
