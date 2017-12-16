@@ -9,24 +9,35 @@
   },
   {
     "name": "home",
-    "dependency": [
-    ]
+    "dependency": []
   }],
   "navigations": [
   {
-    "name": "app.login",
+    "name": "app",
     "definition":
     {
-      "name": "login",
-      "url": "/login",
-      "views":
+      "name": "app",
+      "url": "/app",
+      "abstruct": true,
+      "templateUrl": "templates/menu.html",
+      "controller": "loginController"
+    },
+    "Children": [
+    {
+      "name": "app.login",
+      "definition":
       {
-        "menuContent":
+        "name": "app.login",
+        "url": "/login",
+        "views":
         {
-          "templateUrl": "templates/login.html",
-          "controller": "loginController"
+          "menuContent":
+          {
+            "templateUrl": "templates/login.html",
+            "controller": "loginController"
+          }
         }
       }
-    }
+    }]
   }]
 }

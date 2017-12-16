@@ -24,39 +24,7 @@
 
     .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
       $httpProvider.interceptors.push('authorizationInjector');
-
-      //debugger;
-      $stateProvider
-
-        .state('app', {
-          url: '/app',
-          abstract: true,
-          templateUrl: 'templates/menu.html',
-          controller: 'loginController'
-        });
-        // .state('app.login', {
-        //   url: '/login',
-        //   views: {
-        //     'menuContent': {
-        //       templateUrl: 'templates/login.html',
-        //       controller: 'loginController'
-        //     }
-        //   }
-        // });
-      // setTimeout(function() {
-      for (var i = 0; i < w.navigationMenu.length; i++) {
-        debugger;
-        //if (!$state.get(w.navigationMenu[i].name)) {
-        $stateProvider.state(w.navigationMenu[i].name, w.navigationMenu[i].definition);
-        // if(w.navigationMenu[i].Children){
-        //   for (var j = 0; j < w.navigationMenu[i].Children.length; j++) {
-        //     $stateProvider.state(w.navigationMenu[i].Children[j].name, w.navigationMenu[i].Children[j].definition);
-        //   }
-        // }
-        //}
-      }
-      // }, 2000);
-
+      configureRouting($stateProvider);
       // if none of the above states are matched, use this as the fallback
       $urlRouterProvider.otherwise('/app/login');
 
@@ -74,5 +42,21 @@
     });
 
   /*=====  End of bootstrapping main module  ======*/
+
+
+  /*----------  Configuring routing  ----------*/
+  
+  function configureRouting($stateProvider){
+    for (var i = 0; i < w.navigationMenu.length; i++) {
+        //if (!$state.get(w.navigationMenu[i].name)) {
+        $stateProvider.state(w.navigationMenu[i].name, w.navigationMenu[i].definition);
+        if (w.navigationMenu[i].Children) {
+          for (var j = 0; j < w.navigationMenu[i].Children.length; j++) {
+            debugger;
+            $stateProvider.state(w.navigationMenu[i].Children[j].name, w.navigationMenu[i].Children[j].definition);
+          }
+        }
+      }
+  }
 
 })(window);
