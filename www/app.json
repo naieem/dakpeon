@@ -1,66 +1,61 @@
 {
-  "appName": "dakpeon",
-  "externalScript":[
-    {
-        "name":"jquery",
-        "url":"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js",
-        "type":"js"
-    },
-    {
-        "name":"jquery",
-        "url":"https://cdnjs.cloudflare.com/ajax/libs/sco.js/1.1.0/css/scojs.min.css",
-        "type":"css"
-    }
-  ],
-  "modules": [
-    {
-      "name": "login",
-      "dependency": [
-        "login.controller",
-        "login.service"
-      ]
-    },
-    {
-      "name": "home",
-      "dependency": [
-        "home.controller"
-      ]
-    },
-    {
-      "name": "menu",
-      "dependency": [
-        "menu.controller"
-      ]
-    }
-  ],
-  "navigations": [
-    {
-      "navigationName": "menu",
-      "hasChild": true,
-      "url": "/menu",
-      "appName": "menu",
-      "appView": "",
-      "isPublished":true,
-      "Children": [
-        {
-          "navigationName": "login",
-          "url": "/login",
-          "appName": "login",
-          "appView": "",
-          "isPublished":false
+    "appName": "dakpeon",
+    "externalScript": [{
+            "name": "jquery",
+            "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js",
+            "type": "js"
         },
         {
-          "navigationName": "home",
-          "url": "/home",
-          "appName": "home",
-          "appView": "",
-          "isPublished":true
+            "name": "jquery",
+            "url": "https://cdnjs.cloudflare.com/ajax/libs/sco.js/1.1.0/css/scojs.min.css",
+            "type": "css"
         }
-      ]
+    ],
+    "modules": [{
+            "name": "login",
+            "dependency": [
+                "login.controller",
+                "login.service"
+            ]
+        },
+        {
+            "name": "home",
+            "dependency": [
+                "home.controller"
+            ]
+        },
+        {
+            "name": "menu",
+            "dependency": [
+                "menu.controller"
+            ]
+        }
+    ],
+    "navigations": [{
+        "navigationName": "menu",
+        "hasChild": true,
+        "url": "/menu",
+        "appName": "menu",
+        "appView": "",
+        "isPublished": true,
+        "Children": [{
+                "navigationName": "login",
+                "url": "/login",
+                "appName": "login",
+                "appView": "",
+                "isPublished": true
+            },
+            {
+                "navigationName": "home",
+                "url": "/home",
+                "appName": "home",
+                "appView": "",
+                "isPublished": true
+            }
+        ]
+    }],
+    "defaulApp": {
+        "name": "menu",
+        "children": "login"
     }
-  ],
-  "defaulApp": {
-    "name": "menu",
-    "children": "home"
-  }
 }
