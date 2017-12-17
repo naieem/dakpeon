@@ -48,17 +48,93 @@
 
 
   /*----------  Configuring routing  ----------*/
-  
-  function configureRouting($stateProvider){
+
+  function configureRouting($stateProvider) {
+    debugger;
     for (var i = 0; i < w.navigationMenu.length; i++) {
-        $stateProvider.state(w.navigationMenu[i].name, w.navigationMenu[i].definition);
-        if (w.navigationMenu[i].Children) {
-          for (var j = 0; j < w.navigationMenu[i].Children.length; j++) {
-            
-            $stateProvider.state(w.navigationMenu[i].Children[j].name, w.navigationMenu[i].Children[j].definition);
+      generateStateDefinition(w.navigationMenu[i], $stateProvider);
+    }
+  }
+
+
+  // =================================================================
+  // generating parent states
+  // =================================================================
+  
+  function generateStateDefinition(navigationInfo, $stateProvider) {
+    var templateUrl = "";
+    var controller = generateController(navigationInfo);
+    if (navigationInfo.appView !== "") {
+      templateUrl = "modules/" + navigationInfo.appName + "/views/" + navigationInfo.appView + ".html";
+    } else {
+      templateUrl = "modules/" + navigationInfo.appName + "/views/" + navigationInfo.appName + ".html";
+    }
+    var stateName = navigationInfo.navigationName;
+    var stateDefinition = {
+      "name": stateName,
+      "url": navigationInfo.url,
+      "abstruct": navigationInfo.hasChild ? navigationInfo.hasChild : false,
+      "templateUrl": templateUrl,
+      "controller": controller
+    }
+    debugger;
+    $stateProvider.state(stateName, stateDefinition);
+    if (navigationInfo.Children && navigationInfo.Children.length)
+      generateStateForChildren(navigationInfo, $stateProvider);
+  }
+
+  // ==================================================================
+  // generating child states for the parent routes
+  // ==================================================================
+  function generateStateForChildren(navigationInfo, $stateProvider) {
+    for (var i = 0; i < navigationInfo.Children.length; i++) {
+      var templateUrl = "";
+      var controller = generateController(navigationInfo.Children[i]);
+      if (navigationInfo.Children[i].appView !== "") {
+        templateUrl = "modules/" + navigationInfo.Children[i].appName + "/views/" + navigationInfo.Children[i].appView + ".html";
+      } else {
+        templateUrl = "modules/" + navigationInfo.Children[i].appName + "/views/" + navigationInfo.Children[i].appName + ".html";
+      }
+      var stateName = navigationInfo.navigationName + "." + navigationInfo.Children[i].navigationName;
+      var stateDefinition = {
+        "name": stateName,
+        "url": navigationInfo.Children[i].url,
+        "views": {
+          "menuContent": {
+            "templateUrl": templateUrl,
+            "controller": controller
           }
         }
       }
+      debugger;
+      $stateProvider.state(stateName, stateDefinition);
+    }
+  }
+  // =================================================
+  // generating controller name from navigationinfo
+  // =================================================
+  function generateController(navigationInfo) {
+    var controller = "";
+    if (navigationInfo.appView !== "") {
+      var splittedWords = navigationInfo.appView.split('-');
+      controller = splittedWords[0];
+      for (var i = 1; i < splittedWords.length; i++) {
+        controller += uppercaseStringsFirstLetter(splittedWords[i]);
+      }
+    } else {
+      var splittedWords = navigationInfo.appName.split('-');
+      controller = splittedWords[0];
+      for (var i = 1; i < splittedWords.length; i++) {
+        controller += uppercaseStringsFirstLetter(splittedWords[i]);
+      }
+    }
+    return controller + "Controller";
+  }
+  // =================================================
+  // uppercasing firstletter of the string
+  // =================================================
+  function uppercaseStringsFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
   }
 
 })(window);

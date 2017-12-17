@@ -1,43 +1,48 @@
 {
-    "appName": "dakpeon",
-    "modules": [
+  "appName": "dakpeon",
+  "modules": [
+    {
+      "name": "login",
+      "dependency": [
+        "login.controller",
+        "login.service"
+      ]
+    },
+    {
+      "name": "home",
+      "dependency": [
+        "home.controller"
+      ]
+    },
+    {
+      "name": "menu",
+      "dependency": [
+        "menu.controller"
+      ]
+    }
+  ],
+  "navigations": [
+    {
+      "navigationName": "menu",
+      "hasChild": true,
+      "url": "/menu",
+      "appName": "menu",
+      "appView": "",
+      "Children": [
         {
-            "name": "login",
-            "dependency": [
-                "login.controller",
-                "login.service"
-            ]
+          "navigationName": "login",
+          "url": "/login",
+          "appName": "login",
+          "appView": ""
         },
         {
-            "name": "home",
-            "dependency": []
+          "navigationName": "home",
+          "url": "/home",
+          "appName": "home",
+          "appView": ""
         }
-    ],
-    "navigations": [
-        {
-            "name": "app",
-            "definition": {
-                "name": "app",
-                "url": "/app",
-                "abstruct": true,
-                "templateUrl": "templates/menu.html"
-            },
-            "Children": [
-                {
-                    "name": "app.login",
-                    "definition": {
-                        "name": "app.login",
-                        "url": "/login",
-                        "views": {
-                            "menuContent": {
-                                "templateUrl": "templates/login.html",
-                                "controller": "loginController"
-                            }
-                        }
-                    }
-                }
-            ]
-        }
-    ],
-    "defaultUrl": "/app/login"
+      ]
+    }
+  ],
+  "defaultUrl": "/menu/home"
 }
