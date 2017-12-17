@@ -79,6 +79,11 @@
       "controller": controller
     }
     debugger;
+    // ================================================================
+    // setting state
+    // statename:string
+    // stateDefinition:Object
+    // ================================================================
     $stateProvider.state(stateName, stateDefinition);
     if (navigationInfo.Children && navigationInfo.Children.length)
       generateStateForChildren(navigationInfo, $stateProvider);
@@ -109,6 +114,11 @@
           }
         }
         debugger;
+        // ================================================================
+        // setting state
+        // statename:string
+        // stateDefinition:Object
+        // ================================================================
         $stateProvider.state(stateName, stateDefinition);
       }
     }
