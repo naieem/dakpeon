@@ -47,7 +47,10 @@
   /*=====  End of bootstrapping main module  ======*/
 
 
-  /*----------  Configuring routing  ----------*/
+  // ===================================================
+  // configuring all routes for the application
+  // returns configured states and routes
+  // ===================================================
 
   function configureRouting($stateProvider) {
     debugger;
@@ -64,13 +67,16 @@
 
   function generateStateDefinition(navigationInfo, $stateProvider) {
     var templateUrl = "";
-    var controller = generateController(navigationInfo);
+    var controller = generateController(navigationInfo); // generating controller name
     if (navigationInfo.appView !== "") {
       templateUrl = "modules/" + navigationInfo.appName + "/views/" + navigationInfo.appView + ".html";
     } else {
       templateUrl = "modules/" + navigationInfo.appName + "/views/" + navigationInfo.appName + ".html";
     }
-    var stateName = navigationInfo.navigationName;
+    var stateName = navigationInfo.navigationName; // generating statename
+    // ==================================================================
+    // creating definition object for state parameter
+    // ==================================================================
     var stateDefinition = {
       "name": stateName,
       "url": navigationInfo.url,
@@ -96,13 +102,16 @@
     for (var i = 0; i < navigationInfo.Children.length; i++) {
       if (navigationInfo.Children[i].isPublished) {
         var templateUrl = "";
-        var controller = generateController(navigationInfo.Children[i]);
+        var controller = generateController(navigationInfo.Children[i]); // generating controller name
         if (navigationInfo.Children[i].appView !== "") {
           templateUrl = "modules/" + navigationInfo.Children[i].appName + "/views/" + navigationInfo.Children[i].appView + ".html";
         } else {
           templateUrl = "modules/" + navigationInfo.Children[i].appName + "/views/" + navigationInfo.Children[i].appName + ".html";
         }
-        var stateName = navigationInfo.navigationName + "." + navigationInfo.Children[i].navigationName;
+        var stateName = navigationInfo.navigationName + "." + navigationInfo.Children[i].navigationName; // generating statename
+        // ==================================================================
+        // creating definition object for state parameter
+        // ==================================================================
         var stateDefinition = {
           "name": stateName,
           "url": navigationInfo.Children[i].url,
@@ -125,6 +134,7 @@
   }
   // =================================================
   // generating controller name from navigationinfo
+  // returns(controllername:string)
   // =================================================
   function generateController(navigationInfo) {
     var controller = "";
@@ -145,6 +155,7 @@
   }
   // =================================================
   // uppercasing firstletter of the string
+  // return string
   // =================================================
   function uppercaseStringsFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1)

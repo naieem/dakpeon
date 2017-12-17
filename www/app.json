@@ -1,5 +1,17 @@
 {
   "appName": "dakpeon",
+  "externalScript":[
+    {
+        "name":"jquery",
+        "url":"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js",
+        "type":"js"
+    },
+    {
+        "name":"jquery",
+        "url":"https://cdnjs.cloudflare.com/ajax/libs/sco.js/1.1.0/css/scojs.min.css",
+        "type":"css"
+    }
+  ],
   "modules": [
     {
       "name": "login",
