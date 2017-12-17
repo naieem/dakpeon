@@ -39,5 +39,6 @@
         }
       }
     }]
-  }]
+  }],
+  "defaultUrl":"/app/login"
 }

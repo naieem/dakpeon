@@ -8,6 +8,7 @@
   w.modules = ['ionic']; // by default add ionic as dependency submodule 
   w.navigationMenu = []; // arrays of all navigation configuration
   w.appName = ''; // main appname and main module name to be used in the bootstrap
+  w.defaultUrl=""; // main redirect url for ui-router default url link
   getConfiguration(); // getting modules configurations
 
 
@@ -25,6 +26,8 @@
         var appConfiguration = JSON.parse(request.response);
         /*----------  assigning appname or main module  ----------*/
         w.appName = appConfiguration.appName;
+        /*----------  main redirect url for ui-router default url link ----------*/
+        w.defaultUrl = appConfiguration.defaultUrl;
         /*----------  all the modules to load  ----------*/
         var modules = appConfiguration.modules;
 
@@ -99,7 +102,7 @@
     w.load("modules/" + fileAndFolderName + "/" + fileAndFolderName + '.config.js');
   }
 
-  /*----------  loading array of script file from given directory  ----------*/
+  /*----------  loading array of script files from given directory  ----------*/
 
 
   function loadScript(directoryName, filesArr) {

@@ -27,7 +27,7 @@
       $httpProvider.interceptors.push('authorizationInjector');
       configureRouting($stateProvider);
       // if none of the above states are matched, use this as the fallback
-      $urlRouterProvider.otherwise('/app/login');
+      $urlRouterProvider.otherwise(w.defaultUrl);
 
     })
 
