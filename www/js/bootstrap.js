@@ -52,7 +52,8 @@
   function configureRouting($stateProvider) {
     debugger;
     for (var i = 0; i < w.navigationMenu.length; i++) {
-      generateStateDefinition(w.navigationMenu[i], $stateProvider);
+      if (w.navigationMenu[i].isPublished)
+        generateStateDefinition(w.navigationMenu[i], $stateProvider);
     }
   }
 
@@ -60,7 +61,7 @@
   // =================================================================
   // generating parent states
   // =================================================================
-  
+
   function generateStateDefinition(navigationInfo, $stateProvider) {
     var templateUrl = "";
     var controller = generateController(navigationInfo);
@@ -88,26 +89,28 @@
   // ==================================================================
   function generateStateForChildren(navigationInfo, $stateProvider) {
     for (var i = 0; i < navigationInfo.Children.length; i++) {
-      var templateUrl = "";
-      var controller = generateController(navigationInfo.Children[i]);
-      if (navigationInfo.Children[i].appView !== "") {
-        templateUrl = "modules/" + navigationInfo.Children[i].appName + "/views/" + navigationInfo.Children[i].appView + ".html";
-      } else {
-        templateUrl = "modules/" + navigationInfo.Children[i].appName + "/views/" + navigationInfo.Children[i].appName + ".html";
-      }
-      var stateName = navigationInfo.navigationName + "." + navigationInfo.Children[i].navigationName;
-      var stateDefinition = {
-        "name": stateName,
-        "url": navigationInfo.Children[i].url,
-        "views": {
-          "menuContent": {
-            "templateUrl": templateUrl,
-            "controller": controller
+      if (navigationInfo.Children[i].isPublished) {
+        var templateUrl = "";
+        var controller = generateController(navigationInfo.Children[i]);
+        if (navigationInfo.Children[i].appView !== "") {
+          templateUrl = "modules/" + navigationInfo.Children[i].appName + "/views/" + navigationInfo.Children[i].appView + ".html";
+        } else {
+          templateUrl = "modules/" + navigationInfo.Children[i].appName + "/views/" + navigationInfo.Children[i].appName + ".html";
+        }
+        var stateName = navigationInfo.navigationName + "." + navigationInfo.Children[i].navigationName;
+        var stateDefinition = {
+          "name": stateName,
+          "url": navigationInfo.Children[i].url,
+          "views": {
+            "menuContent": {
+              "templateUrl": templateUrl,
+              "controller": controller
+            }
           }
         }
+        debugger;
+        $stateProvider.state(stateName, stateDefinition);
       }
-      debugger;
-      $stateProvider.state(stateName, stateDefinition);
     }
   }
   // =================================================

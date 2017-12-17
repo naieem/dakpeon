@@ -28,21 +28,27 @@
       "url": "/menu",
       "appName": "menu",
       "appView": "",
+      "isPublished":true,
       "Children": [
         {
           "navigationName": "login",
           "url": "/login",
           "appName": "login",
-          "appView": ""
+          "appView": "",
+          "isPublished":false
         },
         {
           "navigationName": "home",
           "url": "/home",
           "appName": "home",
-          "appView": ""
+          "appView": "",
+          "isPublished":true
         }
       ]
     }
   ],
-  "defaultUrl": "/menu/home"
+  "defaulApp": {
+    "name": "menu",
+    "children": "home"
+  }
 }

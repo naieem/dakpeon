@@ -8,7 +8,7 @@
   w.modules = ['ionic']; // by default add ionic as dependency submodule 
   w.navigationMenu = []; // arrays of all navigation configuration
   w.appName = ''; // main appname and main module name to be used in the bootstrap
-  w.defaultUrl=""; // main redirect url for ui-router default url link
+  w.defaultUrl = ""; // main redirect url for ui-router default url link
   getConfiguration(); // getting modules configurations
 
 
@@ -27,7 +27,8 @@
         /*----------  assigning appname or main module  ----------*/
         w.appName = appConfiguration.appName;
         /*----------  main redirect url for ui-router default url link ----------*/
-        w.defaultUrl = appConfiguration.defaultUrl;
+        w.defaultUrl = generateDefaultUrl(appConfiguration);
+        // w.defaultUrl = appConfiguration.defaultUrl;
         /*----------  all the modules to load  ----------*/
         var modules = appConfiguration.modules;
 
@@ -59,6 +60,26 @@
 
   /*=====  End of configuration  ======*/
 
+  // =========================================================
+  // generating default url from defaultApps object
+  // =========================================================
+  function generateDefaultUrl(appConfiguration) {
+    var url = "";
+    for (var i = 0; i < appConfiguration.navigations.length; i++) {
+      if (appConfiguration.navigations[i].navigationName == appConfiguration.defaulApp.name) {
+        url += appConfiguration.navigations[i].url;
+        if (appConfiguration.defaulApp.children) {
+          for (var j = 0; j < appConfiguration.navigations[i].Children.length; j++) {
+            if (appConfiguration.navigations[i].Children[j].navigationName == appConfiguration.defaulApp.children) {
+              url += appConfiguration.navigations[i].Children[j].url;
+            }
+          }
+        }
+      }
+    }
+    debugger;
+    return url;
+  }
 
   // =============================================
   // function to load dependent files of
