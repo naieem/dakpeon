@@ -63,7 +63,7 @@
 
                 if (response) {
                     var configuration = response;
-                    $http.post("http://localhost:8083/api/validateSecurityToken")
+                    $http.post("https://dakpeon.herokuapp.com/api/validateSecurityToken")
                         .then(function(tokenResponse) {
 
                             configuration.status = tokenResponse.data.status;

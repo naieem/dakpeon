@@ -10,7 +10,7 @@
 
         function login(userData) {
             var deferred = $q.defer();
-            $http.post("http://localhost:8083/api/login", userData)
+            $http.post("https://dakpeon.herokuapp.com/api/login", userData)
                 .then(function(response) {
                     if (response && response.data)
                         deferred.resolve(response.data); //triggers fnSuccess
