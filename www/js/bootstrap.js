@@ -36,12 +36,12 @@
 
     })
 
-    .factory('authorizationInjector', function() {
-        var token = localStorage.getItem("token");
+    .factory('authorizationInjector', function($rootScope) {
+        $rootScope.token = localStorage.getItem("token");
         var authorizationInjector = {
             request: function(config) {
-                if (token) {
-                    config.headers['Authorization'] = token;
+                if ($rootScope.token) {
+                    config.headers['Authorization'] = $rootScope.token;
                 }
                 return config;
             }
@@ -172,22 +172,18 @@
     // for redirection of route
     // ===================================================
     function tokenValidationAndRedirection(dataBearerService, $location) {
-        //dataBearerService.getAppConfiguration().then(function(response) {
-        //if (response) {
         dataBearerService.validateSecurityToken().then(function(tokenResponse) {
             var url = "";
             if (!tokenResponse.status) {
                 url = dataBearerService.generateUrl(tokenResponse.sessionExpiredApp);
             } else {
-                url = dataBearerService.generateUrl(tokenResponse.defaulApp);
+                url = dataBearerService.generateUrl(tokenResponse.defaultUrlObj);
             }
-            debugger;
+
             $location.path(url);
         }).catch(function(error) {
             console.log(error);
-        });;
-        //}
-        //})
+        });
     }
 
 })(window);

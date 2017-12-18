@@ -4,20 +4,24 @@
         .controller('loginController', constructor);
 
     /* @ngInject */
-    function constructor(loginService) {
+    function constructor($location, loginService) {
         var vm = this;
         vm.doLogin = doLogin;
 
 
         function doLogin(userData) {
             loginService.login(userData).then(function(response) {
-                debugger;
+                if (response && response.status) {
+                    loginService.setAuthenticationToken(response.token);
+                    $location.path("/menu/home");
+                }
+
             }).catch(function(error) {
-                debugger;
+
                 console.log(error);
             });
         }
     }
 
-    constructor.$inject = ["loginService"];
+    constructor.$inject = ["$location", "loginService"];
 })(window);

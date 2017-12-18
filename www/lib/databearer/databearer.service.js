@@ -4,7 +4,7 @@
         .service('dataBearerService', constructor);
 
     /* @ngInject */
-    function constructor($q, $http) {
+    function constructor($q, $http, $rootScope, $location, $state) {
         // =============================================
         // variable declaration for total service
         // =============================================
@@ -13,16 +13,45 @@
             defaultUrlObj: null,
             sessionExpiredApp: null,
         };
+        var firstTimeVisit = true;
         this.validateSecurityToken = validateSecurityToken;
         this.getAppConfiguration = getAppConfiguration;
         this.generateUrl = generateUrl;
+        this.setAuthenticationToken = setAuthenticationToken;
         init();
 
         // ================================================
         // Initializing service function
         // ================================================
         function init() {
+            $rootScope.$on("$stateChangeStart", OnRouteChange);
+        }
 
+        // ================================================
+        // function to call if navigation menu changes
+        // ================================================
+
+        function OnRouteChange(event, toState, toParams, fromState, fromParams) {
+            if (!firstTimeVisit) {
+                validateSecurityToken().then(function(tokenResponse) {
+                    var url = "";
+                    if (!tokenResponse.status) {
+
+                        url = generateUrl(tokenResponse.sessionExpiredApp);
+                        $location.path(url);
+                    } else {
+                        var toStr = toState.name.split('.');
+
+                        if (toStr[0] == appconfiguration.sessionExpiredApp.name && toStr[1] == appconfiguration.sessionExpiredApp.children)
+                            $state.go(fromState.name);
+                    }
+
+                }).catch(function(error) {
+                    console.log(error);
+                });
+            } else {
+                firstTimeVisit = false;
+            }
         }
 
         // =======================================================
@@ -31,12 +60,12 @@
         function validateSecurityToken() {
             var deferred = $q.defer();
             getAppConfiguration().then(function(response) {
-                debugger;
+
                 if (response) {
                     var configuration = response;
                     $http.post("http://localhost:8083/api/validateSecurityToken")
                         .then(function(tokenResponse) {
-                            debugger;
+
                             configuration.status = tokenResponse.data.status;
                             deferred.resolve(configuration); //triggers fnSuccess
                         })
@@ -82,7 +111,7 @@
         // generating  url from defaultApps object
         // =========================================================
         function generateUrl(navigationObject) {
-            debugger;
+
             var url = "";
             for (var i = 0; i < appconfiguration.navigations.length; i++) {
                 if (appconfiguration.navigations[i].navigationName == navigationObject.name) {
@@ -99,7 +128,15 @@
 
             return url;
         }
+
+        function setAuthenticationToken(token) {
+            var deferred = $q.defer();
+            localStorage.setItem('token', token);
+            $rootScope.token = token;
+            deferred.resolve(token);
+            return deferred.promise;
+        }
     }
 
-    constructor.$inject = ['$q', '$http'];
+    constructor.$inject = ['$q', '$http', '$rootScope', '$location', '$state'];
 })(window);

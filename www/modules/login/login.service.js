@@ -4,8 +4,9 @@
         .service('loginService', constructor);
 
     /* @ngInject */
-    function constructor($q, $http) {
+    function constructor($q, $http, dataBearerService) {
         this.login = login;
+        this.setAuthenticationToken = setAuthenticationToken;
 
         function login(userData) {
             var deferred = $q.defer();
@@ -19,7 +20,17 @@
                 });
             return deferred.promise;
         }
+
+        function setAuthenticationToken(token) {
+            var deferred = $q.defer();
+            dataBearerService.setAuthenticationToken(token).then(function(response) {
+
+            }).catch(function(error) {
+
+            });
+            return deferred.promise;
+        }
     }
 
-    constructor.$inject = ['$q', '$http'];
+    constructor.$inject = ['$q', '$http', 'dataBearerService'];
 })(window);
