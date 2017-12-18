@@ -34,15 +34,16 @@
                 /*----------  all the external scripts to load  ----------*/
                 var externalScripts = appConfiguration.externalScript;
                 /*------------------ loading data bearer modules ---------*/
-                loadDataBearerModules().then(function(response) {
-                    debugger;
-                    // if (response == 'complete') {
-                    //     if (externalScripts && externalScripts.length)
-                    //         loadExternalScripts(externalScripts);
-                    //     else
-                    //         loadingModulesAndDependencies();
-                    // }
-                });
+                // loadDataBearerModules().then(function(response) {
+                //     debugger;
+                //     // if (response == 'complete') {
+                //     //     if (externalScripts && externalScripts.length)
+                //     //         loadExternalScripts(externalScripts);
+                //     //     else
+                //     //         loadingModulesAndDependencies();
+                //     // }
+                // });
+                alert("dsf");
                 /*------------------ loading externalScripts -------------*/
 
                 // setTimeout(function() {
