@@ -11,10 +11,11 @@
             var deferred = $q.defer();
             $http.post("http://localhost:8083/api/login", userData)
                 .then(function(response) {
-                    deferred.resolve(response); //triggers fnSuccess
+                    if (response && response.data)
+                        deferred.resolve(response.data); //triggers fnSuccess
                 })
-                .catch(function(response) {
-                    deferred.reject(response); //triggers fnSuccess
+                .catch(function(error) {
+                    deferred.reject(error); //triggers fnSuccess
                 });
             return deferred.promise;
         }

@@ -30,13 +30,23 @@
         // =======================================================
         function validateSecurityToken() {
             var deferred = $q.defer();
-            $http.post("http://localhost:8083/api/validateSecurityToken")
-                .then(function(response) {
-                    deferred.resolve(response); //triggers fnSuccess
-                })
-                .catch(function(response) {
-                    deferred.reject(response); //triggers fnerror
-                });
+            getAppConfiguration().then(function(response) {
+                debugger;
+                if (response) {
+                    var configuration = response;
+                    $http.post("http://localhost:8083/api/validateSecurityToken")
+                        .then(function(tokenResponse) {
+                            debugger;
+                            configuration.status = tokenResponse.data.status;
+                            deferred.resolve(configuration); //triggers fnSuccess
+                        })
+                        .catch(function(response) {
+                            deferred.reject(response); //triggers fnerror
+                        });
+                }
+            }).catch(function(error) {
+                console.log("error gettin app configuration", error);
+            });
             return deferred.promise;
         }
 
@@ -71,15 +81,16 @@
         // =========================================================
         // generating  url from defaultApps object
         // =========================================================
-        function generateUrl(navigationObject, appConfiguration) {
+        function generateUrl(navigationObject) {
+            debugger;
             var url = "";
-            for (var i = 0; i < appConfiguration.navigations.length; i++) {
-                if (appConfiguration.navigations[i].navigationName == navigationObject.name) {
-                    url += appConfiguration.navigations[i].url;
+            for (var i = 0; i < appconfiguration.navigations.length; i++) {
+                if (appconfiguration.navigations[i].navigationName == navigationObject.name) {
+                    url += appconfiguration.navigations[i].url;
                     if (navigationObject.children) {
-                        for (var j = 0; j < appConfiguration.navigations[i].Children.length; j++) {
-                            if (appConfiguration.navigations[i].Children[j].navigationName == navigationObject.children) {
-                                url += appConfiguration.navigations[i].Children[j].url;
+                        for (var j = 0; j < appconfiguration.navigations[i].Children.length; j++) {
+                            if (appconfiguration.navigations[i].Children[j].navigationName == navigationObject.children) {
+                                url += appconfiguration.navigations[i].Children[j].url;
                             }
                         }
                     }

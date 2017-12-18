@@ -172,22 +172,22 @@
     // for redirection of route
     // ===================================================
     function tokenValidationAndRedirection(dataBearerService, $location) {
-        dataBearerService.getAppConfiguration().then(function(response) {
-            if (response) {
-                dataBearerService.validateSecurityToken().then(function(tokenResponse) {
-                    var url = "";
-                    if (!tokenResponse.data.status) {
-                        url = dataBearerService.generateUrl(response.sessionExpiredApp, response);
-                    } else {
-                        url = dataBearerService.generateUrl(response.defaulApp, response);
-                    }
-                    debugger;
-                    $location.path(url);
-                });
+        //dataBearerService.getAppConfiguration().then(function(response) {
+        //if (response) {
+        dataBearerService.validateSecurityToken().then(function(tokenResponse) {
+            var url = "";
+            if (!tokenResponse.status) {
+                url = dataBearerService.generateUrl(tokenResponse.sessionExpiredApp);
+            } else {
+                url = dataBearerService.generateUrl(tokenResponse.defaulApp);
             }
+            debugger;
+            $location.path(url);
         }).catch(function(error) {
             console.log(error);
-        });
+        });;
+        //}
+        //})
     }
 
 })(window);
