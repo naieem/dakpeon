@@ -42,8 +42,8 @@
 
             request.onreadystatechange = function() {
                 if (request.readyState === 4) {
-                  s.innerHTML=request.response;
-                  x.appendChild(s);
+                  //s.innerHTML=request.response;
+                  //x.appendChild(s);
                   document.getElementById("load_module").innerHTML="loaded";
                   resolve('success');
                   debugger;
