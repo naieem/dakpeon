@@ -36,7 +36,11 @@
                 /*------------------ loading data bearer modules ---------*/
                 loadDataBearerModules();
                 /*------------------ loading externalScripts -------------*/
-                loadExternalScripts(externalScripts);
+                debugger;
+                if (externalScripts && externalScripts.length)
+                    loadExternalScripts(externalScripts);
+                else
+                    loadingModulesAndDependencies();
 
             }
         }
