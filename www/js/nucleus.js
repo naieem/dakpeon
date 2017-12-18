@@ -35,7 +35,7 @@
                 var externalScripts = appConfiguration.externalScript;
                 /*------------------ loading data bearer modules ---------*/
                 loadDataBearerModules().then(function(response) {
-                    debugger;
+                   alert(response);
                     // if (response == 'complete') {
                     //     if (externalScripts && externalScripts.length)
                     //         loadExternalScripts(externalScripts);
@@ -43,7 +43,7 @@
                     //         loadingModulesAndDependencies();
                     // }
                 });
-                alert("dsf");
+                
                 /*------------------ loading externalScripts -------------*/
 
                 // setTimeout(function() {
@@ -72,22 +72,22 @@
             //     resolve('success');
             // }
             //var x = document.getElementsByTagName('head')[0];
-            
+
             var request = new XMLHttpRequest();
 
             request.onreadystatechange = function() {
                 if (request.readyState === 4) {
-                  //s.innerHTML=request.response;
-                  //x.appendChild(s);
-                  document.getElementById("load_module").innerHTML="loaded";
-                  resolve('success');
-                  debugger;
+                    //s.innerHTML=request.response;
+                    //x.appendChild(s);
+                    document.getElementById("load_module").innerHTML = "loaded";
+                    resolve('success');
+                    debugger;
                 }
             }
 
             request.open('Get', '../app.json');
             request.send();
-        }); 
+        });
     }
     // ===================================================
     // loading data bearer modules
@@ -97,23 +97,25 @@
         // w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js");
         // w.modules.push(appConfiguration.dataBearerModules.name);
         /*----------------------- loading dependencies --------------------------------------*/
-
         return new Promise(function(resolve, reject) {
-            for (var index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
-                //var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
-                load().then(function(response) {
-                    debugger;
-                    if (response == 'success') {
-                        debugger;
-                        if ((index) == appConfiguration.dataBearerModules.dependency.length) {
-                            alert('sdfd');
-                            resolve("complete");
-                        }
-                    }
-                });
-
-            }
+            resolve("dfd");
         });
+        // return new Promise(function(resolve, reject) {
+        //     for (var index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
+        //         //var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
+        //         load().then(function(response) {
+        //             debugger;
+        //             if (response == 'success') {
+        //                 debugger;
+        //                 if ((index) == appConfiguration.dataBearerModules.dependency.length) {
+        //                     alert('sdfd');
+        //                     resolve("complete");
+        //                 }
+        //             }
+        //         });
+
+        //     }
+        // });
     }
 
     // =============================================
