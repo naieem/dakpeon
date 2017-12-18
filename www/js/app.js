@@ -14,7 +14,7 @@
       angular.element(moduleContainer).ready(function() {
         angular.bootstrap(document, [w.appName]);
       });
-    }, 100);
+    }, 1000);
   }
 
 })(window);

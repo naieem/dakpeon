@@ -42,7 +42,7 @@
                         loadExternalScripts(externalScripts);
                     else
                         loadingModulesAndDependencies();
-                }, 500);
+                }, 1500);
 
             }
         }
@@ -166,7 +166,9 @@
             // loaded then bootstrap the main application
             // ===========================================
             if ((i + 1) == navigations.length) {
-                w.executeAction('bootstrap');
+                setTimeout(function() {
+                    w.executeAction('bootstrap');
+                }, 1000);
             }
         }
     }
