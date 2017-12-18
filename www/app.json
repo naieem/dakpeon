@@ -1,7 +1,6 @@
 {
     "appName": "dakpeon",
-    "externalScript": [
-        {
+    "externalScript": [{
             "name": "jquery",
             "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js",
             "type": "js"
@@ -12,8 +11,7 @@
             "type": "css"
         }
     ],
-    "modules": [
-        {
+    "modules": [{
             "name": "login",
             "dependency": [
                 "login.controller",
@@ -46,16 +44,14 @@
             "databearer.service"
         ]
     },
-    "navigations": [
-        {
+    "navigations": [{
             "navigationName": "menu",
             "hasChild": true,
             "url": "/menu",
             "appName": "menu",
             "appView": "",
             "isPublished": true,
-            "Children": [
-                {
+            "Children": [{
                     "navigationName": "login",
                     "url": "/login",
                     "appName": "login",
@@ -83,5 +79,9 @@
     "defaulApp": {
         "name": "menu",
         "children": "home"
+    },
+    "sessionExpiredApp": {
+        "name": "menu",
+        "children": "login"
     }
 }

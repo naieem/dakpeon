@@ -7,7 +7,7 @@
 
     angular.module(w.appName, w.modules)
 
-    .run(function($ionicPlatform,dataBearerService,$location) {
+    .run(function($ionicPlatform, dataBearerService, $location) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -20,11 +20,11 @@
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
-            dataBearerService.validateSecurityToken().then(function(response){
-                debugger;
-                $location.path(url);
-            });
-            debugger;
+            // ===================================================
+            // main call for validated token and get decision
+            // for redirection of route
+            // ===================================================
+            tokenValidationAndRedirection(dataBearerService, $location);
         });
     })
 
@@ -92,7 +92,7 @@
         }
 
         // ================================================================
-        // setting state
+        // setting children state
         // statename:string
         // stateDefinition:Object
         // ================================================================
@@ -166,6 +166,28 @@
     // =================================================
     function uppercaseStringsFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+    // ===================================================
+    // main call for validated token and get decision
+    // for redirection of route
+    // ===================================================
+    function tokenValidationAndRedirection(dataBearerService, $location) {
+        dataBearerService.getAppConfiguration().then(function(response) {
+            if (response) {
+                dataBearerService.validateSecurityToken().then(function(tokenResponse) {
+                    var url = "";
+                    if (!tokenResponse.data.status) {
+                        url = dataBearerService.generateUrl(response.sessionExpiredApp, response);
+                    } else {
+                        url = dataBearerService.generateUrl(response.defaulApp, response);
+                    }
+                    debugger;
+                    $location.path(url);
+                });
+            }
+        }).catch(function(error) {
+            console.log(error);
+        });
     }
 
 })(window);

@@ -46,17 +46,17 @@
     }
 
     /*=====  End of configuration  ======*/
-    
+
     // ===================================================
     // loading data bearer modules
     // ===================================================
-    function loadDataBearerModules(){
-        var directoryUrl=appConfiguration.dataBearerModules.directoryName+"/"+appConfiguration.dataBearerModules.name;
-        w.load(directoryUrl+"/"+appConfiguration.dataBearerModules.name+".config.js");
+    function loadDataBearerModules() {
+        var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
+        w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js");
         w.modules.push(appConfiguration.dataBearerModules.name);
         /*----------------------- loading dependencies --------------------------------------*/
         for (let index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
-            w.load(directoryUrl+"/"+appConfiguration.dataBearerModules.dependency[index]+".js");
+            w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js");
         }
     }
 
