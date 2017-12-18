@@ -27,6 +27,7 @@
     }
 
     function load(url) {
+
         return new Promise(function(resolve, reject) {
             var s = document.createElement('script');
             // s.type = 'text/javascript';
@@ -43,6 +44,7 @@
                 if (request.readyState === 4) {
                   s.innerHTML=request.response;
                   x.appendChild(s);
+                  document.getElementById("load_module").innerHTML="loaded";
                   resolve('success');
                   debugger;
                 }
