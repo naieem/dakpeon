@@ -28,7 +28,7 @@
                 /*----------  assigning appname or main module  ----------*/
                 w.appName = appConfiguration.appName;
                 /*----------  main redirect url for ui-router default url link ----------*/
-                w.defaultUrl = generateDefaultUrl();
+                w.defaultUrl = generateUrl(appConfiguration.defaulApp);
                 /*----------  all the modules to load  ----------*/
                 var modules = appConfiguration.modules;
                 /*----------  all the external scripts to load  ----------*/
@@ -53,6 +53,8 @@
     function loadDataBearerModules(){
         var directoryUrl=appConfiguration.dataBearerModules.directoryName+"/"+appConfiguration.dataBearerModules.name;
         w.load(directoryUrl+"/"+appConfiguration.dataBearerModules.name+".config.js");
+        w.modules.push(appConfiguration.dataBearerModules.name);
+        /*----------------------- loading dependencies --------------------------------------*/
         for (let index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
             w.load(directoryUrl+"/"+appConfiguration.dataBearerModules.dependency[index]+".js");
         }
@@ -109,16 +111,16 @@
     }
 
     // =========================================================
-    // generating default url from defaultApps object
+    // generating  url from defaultApps object
     // =========================================================
-    function generateDefaultUrl() {
+    function generateUrl(navigationObject) {
         var url = "";
         for (var i = 0; i < appConfiguration.navigations.length; i++) {
-            if (appConfiguration.navigations[i].navigationName == appConfiguration.defaulApp.name) {
+            if (appConfiguration.navigations[i].navigationName == navigationObject.name) {
                 url += appConfiguration.navigations[i].url;
-                if (appConfiguration.defaulApp.children) {
+                if (navigationObject.children) {
                     for (var j = 0; j < appConfiguration.navigations[i].Children.length; j++) {
-                        if (appConfiguration.navigations[i].Children[j].navigationName == appConfiguration.defaulApp.children) {
+                        if (appConfiguration.navigations[i].Children[j].navigationName == navigationObject.children) {
                             url += appConfiguration.navigations[i].Children[j].url;
                         }
                     }

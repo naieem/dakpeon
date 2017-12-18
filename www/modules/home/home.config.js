@@ -1,2 +1,4 @@
-angular
-  .module('home', []);
+(function(w) {
+    angular
+        .module('home', []);
+})(window);

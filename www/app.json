@@ -31,6 +31,12 @@
             "dependency": [
                 "menu.controller"
             ]
+        },
+        {
+            "name": "not-found",
+            "dependency": [
+                "not-found.controller"
+            ]
         }
     ],
     "dataBearerModules": {
@@ -64,10 +70,18 @@
                     "isPublished": true
                 }
             ]
+        },
+        {
+            "navigationName": "404",
+            "hasChild": false,
+            "url": "/404",
+            "appName": "not-found",
+            "appView": "",
+            "isPublished": true
         }
     ],
     "defaulApp": {
         "name": "menu",
-        "children": "login"
+        "children": "home"
     }
 }

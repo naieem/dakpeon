@@ -7,7 +7,7 @@
 
     angular.module(w.appName, w.modules)
 
-    .run(function($ionicPlatform) {
+    .run(function($ionicPlatform,dataBearerService,$location) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -20,6 +20,11 @@
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
+            dataBearerService.validateSecurityToken().then(function(response){
+                debugger;
+                $location.path(url);
+            });
+            debugger;
         });
     })
 

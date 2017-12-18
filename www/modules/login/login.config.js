@@ -1,3 +1,4 @@
-angular
-  .module('login', []);
-
+(function(w) {
+    angular
+        .module('login', []);
+})(window);

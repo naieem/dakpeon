@@ -1,3 +1,4 @@
-angular
-.module('dataBearer', []);
-
+(function(w) {
+    angular
+        .module('databearer', []);
+})(window);

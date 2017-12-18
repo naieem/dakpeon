@@ -1,17 +1,12 @@
-angular
-    .module('login')
-    .controller('loginController', constructor);
+(function(w) {
+    angular
+        .module('login')
+        .controller('loginController', constructor);
 
-/* @ngInject */
-function constructor(loginService) {
-    var vm = this;
-    vm.doLogin = doLogin;
+    /* @ngInject */
+    function constructor() {
 
-    function doLogin(user) {
-        loginService.login(user).then(function(response) {
-            debugger;
-        });
     }
-}
 
-constructor.$inject = ['loginService'];
+    constructor.$inject = [];
+})(window);

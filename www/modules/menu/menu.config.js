@@ -1,2 +1,4 @@
-angular
-  .module('menu', []);
+(function(w) {
+    angular
+        .module('menu', []);
+})(window);

@@ -1,11 +1,13 @@
-angular
-  .module('menu')
-  .controller('menuController', constructor);
+(function(w) {
+    angular
+        .module('menu')
+        .controller('menuController', constructor);
 
-/* @ngInject */
-function constructor() {
-  var vm = this;
-  
-}
+    /* @ngInject */
+    function constructor() {
+        var vm = this;
 
-constructor.$inject = [];
+    }
+
+    constructor.$inject = [];
+})(window);
