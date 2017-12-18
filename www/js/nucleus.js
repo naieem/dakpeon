@@ -34,15 +34,23 @@
                 /*----------  all the external scripts to load  ----------*/
                 var externalScripts = appConfiguration.externalScript;
                 /*------------------ loading data bearer modules ---------*/
-                loadDataBearerModules();
+                loadDataBearerModules().then(function(response) {
+                    debugger;
+                    // if (response == 'complete') {
+                    //     if (externalScripts && externalScripts.length)
+                    //         loadExternalScripts(externalScripts);
+                    //     else
+                    //         loadingModulesAndDependencies();
+                    // }
+                });
                 /*------------------ loading externalScripts -------------*/
-                debugger;
-                setTimeout(function() {
-                    if (externalScripts && externalScripts.length)
-                        loadExternalScripts(externalScripts);
-                    else
-                        loadingModulesAndDependencies();
-                }, 1500);
+
+                // setTimeout(function() {
+                //     if (externalScripts && externalScripts.length)
+                //         loadExternalScripts(externalScripts);
+                //     else
+                //         loadingModulesAndDependencies();
+                // }, 1500);
 
             }
         }
@@ -61,9 +69,23 @@
         w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js");
         w.modules.push(appConfiguration.dataBearerModules.name);
         /*----------------------- loading dependencies --------------------------------------*/
-        for (let index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
-            w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js");
-        }
+
+        return new Promise(function(resolve, reject) {
+            for (var index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
+                var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
+                w.load(url).then(function(response) {
+                    debugger;
+                    if (response == 'success') {
+                        debugger;
+                        if ((index) == appConfiguration.dataBearerModules.dependency.length) {
+                            alert('sdfd');
+                            resolve("complete");
+                        }
+                    }
+                });
+
+            }
+        });
     }
 
     // =============================================

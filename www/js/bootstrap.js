@@ -24,7 +24,7 @@
             // main call for validated token and get decision
             // for redirection of route
             // ===================================================
-            //tokenValidationAndRedirection(dataBearerService, $location);
+            tokenValidationAndRedirection(dataBearerService, $location);
         });
     })
 
@@ -32,7 +32,7 @@
         $httpProvider.interceptors.push('authorizationInjector');
         configureRouting($stateProvider);
         // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise(w.defaultUrl);
+        //$urlRouterProvider.otherwise(w.defaultUrl);
 
     })
 
