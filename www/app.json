@@ -1,6 +1,7 @@
 {
     "appName": "dakpeon",
-    "externalScript": [{
+    "externalScript": [
+        {
             "name": "jquery",
             "url": "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js",
             "type": "js"
@@ -11,7 +12,8 @@
             "type": "css"
         }
     ],
-    "modules": [{
+    "modules": [
+        {
             "name": "login",
             "dependency": [
                 "login.controller",
@@ -31,29 +33,39 @@
             ]
         }
     ],
-    "navigations": [{
-        "navigationName": "menu",
-        "hasChild": true,
-        "url": "/menu",
-        "appName": "menu",
-        "appView": "",
-        "isPublished": true,
-        "Children": [{
-                "navigationName": "login",
-                "url": "/login",
-                "appName": "login",
-                "appView": "",
-                "isPublished": true
-            },
-            {
-                "navigationName": "home",
-                "url": "/home",
-                "appName": "home",
-                "appView": "",
-                "isPublished": true
-            }
+    "dataBearerModules": {
+        "name": "databearer",
+        "directoryName": "lib",
+        "dependency": [
+            "databearer.service"
         ]
-    }],
+    },
+    "navigations": [
+        {
+            "navigationName": "menu",
+            "hasChild": true,
+            "url": "/menu",
+            "appName": "menu",
+            "appView": "",
+            "isPublished": true,
+            "Children": [
+                {
+                    "navigationName": "login",
+                    "url": "/login",
+                    "appName": "login",
+                    "appView": "",
+                    "isPublished": true
+                },
+                {
+                    "navigationName": "home",
+                    "url": "/home",
+                    "appName": "home",
+                    "appView": "",
+                    "isPublished": true
+                }
+            ]
+        }
+    ],
     "defaulApp": {
         "name": "menu",
         "children": "login"

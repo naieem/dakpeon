@@ -29,11 +29,13 @@
                 w.appName = appConfiguration.appName;
                 /*----------  main redirect url for ui-router default url link ----------*/
                 w.defaultUrl = generateDefaultUrl();
-                // w.defaultUrl = appConfiguration.defaultUrl;
                 /*----------  all the modules to load  ----------*/
                 var modules = appConfiguration.modules;
                 /*----------  all the external scripts to load  ----------*/
                 var externalScripts = appConfiguration.externalScript;
+                /*------------------ loading data bearer modules ---------*/
+                loadDataBearerModules();
+                /*------------------ loading externalScripts -------------*/
                 loadExternalScripts(externalScripts);
 
             }
@@ -44,7 +46,17 @@
     }
 
     /*=====  End of configuration  ======*/
-
+    
+    // ===================================================
+    // loading data bearer modules
+    // ===================================================
+    function loadDataBearerModules(){
+        var directoryUrl=appConfiguration.dataBearerModules.directoryName+"/"+appConfiguration.dataBearerModules.name;
+        w.load(directoryUrl+"/"+appConfiguration.dataBearerModules.name+".config.js");
+        for (let index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
+            w.load(directoryUrl+"/"+appConfiguration.dataBearerModules.dependency[index]+".js");
+        }
+    }
 
     // =============================================
     // loading external scripts in the application
