@@ -62,19 +62,46 @@
 
     /*=====  End of configuration  ======*/
 
+    function load() {
+        return new Promise(function(resolve, reject) {
+            var s = document.createElement('script');
+            // s.type = 'text/javascript';
+            // s.async = true;
+            // s.src = url;
+            // s.onload = function() {
+            //     resolve('success');
+            // }
+            //var x = document.getElementsByTagName('head')[0];
+            
+            var request = new XMLHttpRequest();
+
+            request.onreadystatechange = function() {
+                if (request.readyState === 4) {
+                  //s.innerHTML=request.response;
+                  //x.appendChild(s);
+                  document.getElementById("load_module").innerHTML="loaded";
+                  resolve('success');
+                  debugger;
+                }
+            }
+
+            request.open('Get', '../app.json');
+            request.send();
+        }); 
+    }
     // ===================================================
     // loading data bearer modules
     // ===================================================
     function loadDataBearerModules() {
-        var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
-        w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js");
-        w.modules.push(appConfiguration.dataBearerModules.name);
+        // var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
+        // w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js");
+        // w.modules.push(appConfiguration.dataBearerModules.name);
         /*----------------------- loading dependencies --------------------------------------*/
 
         return new Promise(function(resolve, reject) {
             for (var index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
-                var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
-                w.load(url).then(function(response) {
+                //var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
+                load().then(function(response) {
                     debugger;
                     if (response == 'success') {
                         debugger;
