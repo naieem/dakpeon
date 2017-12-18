@@ -37,10 +37,12 @@
                 loadDataBearerModules();
                 /*------------------ loading externalScripts -------------*/
                 debugger;
-                if (externalScripts && externalScripts.length)
-                    loadExternalScripts(externalScripts);
-                else
-                    loadingModulesAndDependencies();
+                setTimeout(function() {
+                    if (externalScripts && externalScripts.length)
+                        loadExternalScripts(externalScripts);
+                    else
+                        loadingModulesAndDependencies();
+                }, 500);
 
             }
         }

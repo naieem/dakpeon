@@ -68,7 +68,7 @@
     ],
     "defaulApp": {
         "name": "menu",
-        "children": "home"
+        "children": "login"
     },
     "sessionExpiredApp": {
         "name": "menu",
