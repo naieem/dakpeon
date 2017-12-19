@@ -34,10 +34,37 @@
                 /*----------  all the external scripts to load  ----------*/
                 var externalScripts = appConfiguration.externalScript;
                 /*------------------ loading data bearer modules ---------*/
-                loadDataBearerModules();
-                /*------------------ loading externalScripts -------------*/
-                loadExternalScripts(externalScripts);
-
+                loadDataBearerModules().then(function(response) {
+                    if (response && response.success) {
+                        /*------------------ loading externalScripts -------------*/
+                        loadExternalScripts(externalScripts).then(function(response) {
+                            if (response && response.success) {
+                                // =================================
+                                // if external files are loaded
+                                // this is to call main modules
+                                // dependend files
+                                // =================================
+                                loadingModulesAndDependencies().then(function(response) {
+                                    if (response && response.success) {
+                                        // =================================
+                                        // if modules main files are loaded
+                                        // this is called to load their
+                                        // dependend files
+                                        // =================================
+                                        loadDependencyFiles().then(function(response) {
+                                            if (response && response.success) {
+                                                // =================================
+                                                // configuring navigations
+                                                // =================================
+                                                getNavigation(appConfiguration.navigations);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
         }
 
@@ -51,63 +78,100 @@
     // loading data bearer modules
     // ===================================================
     function loadDataBearerModules() {
-        var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
-        w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js");
-        w.modules.push(appConfiguration.dataBearerModules.name);
-        /*----------------------- loading dependencies --------------------------------------*/
-        for (let index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
-            w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js");
-        }
+        return new Promise(function(resolve, reject) {
+            var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
+            w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js").then(function(response) {
+                if (response && response.success) {
+                    w.modules.push(appConfiguration.dataBearerModules.name);
+                    /*----------------------- loading dependencies --------------------------------------*/
+                    for (var index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
+                        w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js").then(function(res) {
+                            if (res && res.success) {
+                                if (index == appConfiguration.dataBearerModules.dependency.length) {
+                                    resolve({
+                                        success: true
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        });
     }
 
     // =============================================
     // loading external scripts in the application
     // =============================================
     function loadExternalScripts(externalScripts) {
-        if (externalScripts && externalScripts.length) {
-            for (var i = 0; i < externalScripts.length; i++) {
-                if (externalScripts[i].type == 'css')
-                    w.loadStyle(externalScripts[i].url, externalScripts[i].name);
-                if (externalScripts[i].type == 'js')
-                    w.load(externalScripts[i].url);
+        return new Promise(function(resolve, reject) {
+            if (externalScripts && externalScripts.length) {
+                for (var i = 0; i < externalScripts.length; i++) {
+                    if (externalScripts[i].type == 'css') {
+                        w.loadStyle(externalScripts[i].url, externalScripts[i].name).then(function(response) {
+                            if (response && response.success) {
+                                // =================================
+                                // if external files are loaded
+                                // this is called to load their
+                                // dependend files
+                                // =================================
+                                if (i == externalScripts.length) {
+                                    resolve({
+                                        success: true
+                                    });
 
-                // =================================
-                // if external files are loaded
-                // this is called to load their
-                // dependend files
-                // =================================
-                if ((i + 1) == externalScripts.length) {
-                    setTimeout(function() {
-                        loadingModulesAndDependencies();
-                    }, 100);
+                                }
+                            }
+                        });
+                    }
+
+                    if (externalScripts[i].type == 'js') {
+                        w.load(externalScripts[i].url).then(function(response) {
+                            if (response && response.success) {
+                                // =================================
+                                // if external files are loaded
+                                // this is called to load their
+                                // dependend files
+                                // =================================
+                                if (i == externalScripts.length) {
+                                    resolve({
+                                        success: true
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
+            } else {
+                resolve({
+                    success: true
+                });
             }
-        } else {
-            loadingModulesAndDependencies();
-        }
+        });
 
     }
 
     function loadingModulesAndDependencies() {
-        for (var i = 0; i < appConfiguration.modules.length; i++) {
-            loadSingleScript(appConfiguration.modules[i].name);
-            // ===============================
-            // saving modules for using
-            // in the bootstrap file
-            // as dependency
-            // ===============================          
-            w.modules.push(appConfiguration.modules[i].name);
-            // =================================
-            // if modules main files are loaded
-            // this is called to load their
-            // dependend files
-            // =================================
-            if ((i + 1) == appConfiguration.modules.length) {
-                setTimeout(function() {
-                    loadDependencyFiles();
-                }, 100);
+        return new Promise(function(resolve, reject) {
+            for (var i = 0; i < appConfiguration.modules.length; i++) {
+                // ===============================
+                // saving modules for using
+                // in the bootstrap file
+                // as dependency
+                // ===============================          
+                w.modules.push(appConfiguration.modules[i].name);
+                loadSingleScript(appConfiguration.modules[i].name).then(function(response) {
+                    if (response && response.success) {
+                        if (i == appConfiguration.modules.length) {
+                            resolve({
+                                success: true
+                            });
+                        }
+                    }
+                });
             }
-        }
+        });
+
     }
 
     // =========================================================
@@ -136,14 +200,20 @@
     // main config modules
     // =============================================
     function loadDependencyFiles() {
-
-        var modules = appConfiguration.modules;
-        for (var i = 0; i < modules.length; i++) {
-            loadScript(modules[i].name, modules[i].dependency);
-            if ((i + 1) == modules.length) {
-                getNavigation(appConfiguration.navigations); // getting navigations configurations
+        return new Promise(function(resolve, reject) {
+            var modules = appConfiguration.modules;
+            for (var i = 0; i < modules.length; i++) {
+                loadScript(modules[i].name, modules[i].dependency).then(function(response) {
+                    if (response && response.success) {
+                        if (i == modules.length) {
+                            resolve({
+                                success: true
+                            });
+                        }
+                    }
+                });
             }
-        }
+        });
     }
 
     // ================================================
@@ -170,7 +240,13 @@
 
 
     function loadSingleScript(fileAndFolderName) {
-        w.load("modules/" + fileAndFolderName + "/" + fileAndFolderName + '.config.js');
+        return new Promise(function(resolve, reject) {
+            w.load("modules/" + fileAndFolderName + "/" + fileAndFolderName + '.config.js').then(function(response) {
+                if (response && response.success) {
+                    resolve(response);
+                }
+            });
+        });
     }
 
     /*----------  loading style script files  ----------*/
@@ -184,11 +260,19 @@
 
 
     function loadScript(directoryName, filesArr) {
-
-        for (var i = 0; i < filesArr.length; i++) {
-
-            w.load("modules/" + directoryName + "/" + filesArr[i] + '.js');
-        }
+        return new Promise(function(resolve, reject) {
+            for (var i = 0; i < filesArr.length; i++) {
+                w.load("modules/" + directoryName + "/" + filesArr[i] + '.js').then(function(response) {
+                    if (response && response.success) {
+                        if (i == filesArr.length) {
+                            resolve({
+                                success: true
+                            });
+                        }
+                    }
+                });
+            }
+        });
     }
 
 })(window);

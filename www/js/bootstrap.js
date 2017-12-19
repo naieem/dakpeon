@@ -32,7 +32,7 @@
         $httpProvider.interceptors.push('authorizationInjector');
         configureRouting($stateProvider);
         // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise(w.defaultUrl);
+        //$urlRouterProvider.otherwise(w.defaultUrl);
 
     })
 
@@ -179,7 +179,10 @@
             } else {
                 url = dataBearerService.generateUrl(tokenResponse.defaultUrlObj);
             }
-
+            // IE10+
+            document.getElementsByTagName("html")[0].classList.remove("loading");
+            // All browsers
+            document.getElementsByTagName("html")[0].className.replace(/loading/, "");
             $location.path(url);
         }).catch(function(error) {
             console.log(error);
