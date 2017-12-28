@@ -34,7 +34,7 @@
                 /*----------  all the external scripts to load  ----------*/
                 var externalScripts = appConfiguration.externalScript;
                 /*------------------ loading data bearer modules ---------*/
-                alert("dfd");
+                alert(w.appName);
                 // loadDataBearerModules().then(function(response) {
                 //     alert(response);
                 //     // if (response == 'complete') {
