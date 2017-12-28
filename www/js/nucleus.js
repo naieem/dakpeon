@@ -238,7 +238,7 @@
                 setTimeout(function() {
                     alert('all loaded');
                     w.executeAction('bootstrap');
-                }, 100);
+                }, 1000);
             }
         }
     }
