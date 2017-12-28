@@ -26,33 +26,43 @@
         }
     }
 
-    function load(url) {
+    function load(url, callbackfn, index) {
+        var s = document.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = url;
+        if (callbackfn && index) {
+            s.onload = callbackfn(index);
+        } else if (callbackfn && !index) {
+            s.onload = callbackfn();
+        }
+        var x = document.getElementsByTagName('head')[0];
+        x.appendChild(s);
+        // return new Promise(function(resolve, reject) {
+        // var s = document.createElement('script');
+        // s.type = 'text/javascript';
+        // s.async = true;
+        // s.src = url;
+        // s.onload = function() {
+        //     alert('success');
+        // }
+        // var x = document.getElementsByTagName('head')[0];
 
-        return new Promise(function(resolve, reject) {
-            var s = document.createElement('script');
-            // s.type = 'text/javascript';
-            // s.async = true;
-            // s.src = url;
-            // s.onload = function() {
-            //     resolve('success');
-            // }
-            var x = document.getElementsByTagName('head')[0];
-            
-            var request = new XMLHttpRequest();
+        // var request = new XMLHttpRequest();
 
-            request.onreadystatechange = function() {
-                if (request.readyState === 4) {
-                  //s.innerHTML=request.response;
-                  //x.appendChild(s);
-                  document.getElementById("load_module").innerHTML="loaded";
-                  resolve('success');
-                  debugger;
-                }
-            }
+        // request.onreadystatechange = function() {
+        //     if (request.readyState === 4) {
+        //       //s.innerHTML=request.response;
+        //       //x.appendChild(s);
+        //       document.getElementById("load_module").innerHTML="loaded";
+        //       resolve('success');
+        //       debugger;
+        //     }
+        // }
 
-            request.open('Get', url);
-            request.send();
-        });
+        //     request.open('Get', url);
+        //     request.send();
+        // });
     }
 
     function registerAction(id, callbackFn) {

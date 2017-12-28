@@ -34,7 +34,8 @@
                 /*----------  all the external scripts to load  ----------*/
                 var externalScripts = appConfiguration.externalScript;
                 /*------------------ loading data bearer modules ---------*/
-                alert(w.appName);
+                //alert(w.appName);
+                alert(loadDataBearerModules());
                 // loadDataBearerModules().then(function(response) {
                 //     alert(response);
                 //     // if (response == 'complete') {
@@ -90,33 +91,32 @@
             request.send();
         });
     }
+
     // ===================================================
     // loading data bearer modules
     // ===================================================
     function loadDataBearerModules() {
-        // var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
-        // w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js");
-        // w.modules.push(appConfiguration.dataBearerModules.name);
-        /*----------------------- loading dependencies --------------------------------------*/
-        return new Promise(function(resolve, reject) {
-            resolve("dfd");
-        });
-        // return new Promise(function(resolve, reject) {
-        //     for (var index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
-        //         //var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
-        //         load().then(function(response) {
-        //             debugger;
-        //             if (response == 'success') {
-        //                 debugger;
-        //                 if ((index) == appConfiguration.dataBearerModules.dependency.length) {
-        //                     alert('sdfd');
-        //                     resolve("complete");
-        //                 }
-        //             }
-        //         });
+        var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
+        w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js", loadDataBearerDependency, '0');
+        w.modules.push(appConfiguration.dataBearerModules.name);
+        return "from function";
+    }
 
-        //     }
-        // });
+    function loadDataBearerDependency(index) {
+        debugger;
+        var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
+        if (index < appConfiguration.dataBearerModules.dependency.length) {
+            var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
+            index++;
+            w.load(url, loadDataBearerDependency, index);
+        } else {
+            alert("load done");
+        }
+        // for (var index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
+        //     var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
+        //     w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js", loadDataBearerDependency);
+
+        // }
     }
 
     // =============================================
