@@ -236,6 +236,7 @@
             // ===========================================
             if ((i + 1) == navigations.length) {
                 setTimeout(function() {
+                    alert('all loaded');
                     w.executeAction('bootstrap');
                 }, 100);
             }
