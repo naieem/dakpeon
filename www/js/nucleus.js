@@ -35,7 +35,7 @@
                 var externalScripts = appConfiguration.externalScript;
                 /*------------------ loading data bearer modules ---------*/
                 //alert(w.appName);
-                alert(loadDataBearerModules());
+                loadDataBearerModules();
                 // loadDataBearerModules().then(function(response) {
                 //     alert(response);
                 //     // if (response == 'complete') {
@@ -99,19 +99,26 @@
         var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
         w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js", loadDataBearerDependency, '0');
         w.modules.push(appConfiguration.dataBearerModules.name);
-        return "from function";
+        //return "from function";
     }
 
     function loadDataBearerDependency(index) {
         debugger;
-        var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
-        if (index < appConfiguration.dataBearerModules.dependency.length) {
-            var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
-            index++;
-            w.load(url, loadDataBearerDependency, index);
-        } else {
-            alert("load done");
-        }
+        setTimeout(function() {
+            var directoryUrl = appConfiguration.dataBearerModules.directoryName + "/" + appConfiguration.dataBearerModules.name;
+            if (index < appConfiguration.dataBearerModules.dependency.length) {
+                var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
+                index++;
+                w.load(url, loadDataBearerDependency, index);
+            } else {
+                //alert("load done");
+                if (appConfiguration.externalScript && appConfiguration.externalScript.length)
+                    loadExternalScripts(appConfiguration.externalScript);
+                else
+                    loadingModulesAndDependencies(0);
+            }
+        }, 100);
+
         // for (var index = 0; index < appConfiguration.dataBearerModules.dependency.length; index++) {
         //     var url = directoryUrl + "/" + appConfiguration.dataBearerModules.dependency[index] + ".js";
         //     w.load(directoryUrl + "/" + appConfiguration.dataBearerModules.name + ".config.js", loadDataBearerDependency);
@@ -147,25 +154,31 @@
 
     }
 
-    function loadingModulesAndDependencies() {
-        for (var i = 0; i < appConfiguration.modules.length; i++) {
-            loadSingleScript(appConfiguration.modules[i].name);
+    function loadingModulesAndDependencies(index) {
+        debugger;
+        //for (var i = 0; i < appConfiguration.modules.length; i++) {
+        // loadSingleScript(appConfiguration.modules[i].name);
+        if (index < appConfiguration.modules.length) {
+            var url = "modules/" + appConfiguration.modules[index].name + "/" + appConfiguration.modules[index].name + '.config.js';
+
             // ===============================
             // saving modules for using
             // in the bootstrap file
             // as dependency
             // ===============================          
-            w.modules.push(appConfiguration.modules[i].name);
+            w.modules.push(appConfiguration.modules[index].name);
+            index++;
+            w.load(url, loadingModulesAndDependencies, index);
+        } else {
+            //alert('module load done');
             // =================================
             // if modules main files are loaded
             // this is called to load their
             // dependend files
             // =================================
-            if ((i + 1) == appConfiguration.modules.length) {
-                setTimeout(function() {
-                    loadDependencyFiles();
-                }, 100);
-            }
+            setTimeout(function() {
+                loadDependencyFiles('0');
+            }, 100);
         }
     }
 
@@ -194,15 +207,18 @@
     // function to load dependent files of
     // main config modules
     // =============================================
-    function loadDependencyFiles() {
+    function loadDependencyFiles(index) {
 
         var modules = appConfiguration.modules;
-        for (var i = 0; i < modules.length; i++) {
-            loadScript(modules[i].name, modules[i].dependency);
-            if ((i + 1) == modules.length) {
-                getNavigation(appConfiguration.navigations); // getting navigations configurations
-            }
-        }
+        // for (var i = 0; i < modules.length; i++) {
+        if (index < modules.length)
+            loadScript(index, '0');
+        else
+            getNavigation(appConfiguration.navigations);
+        // if ((i + 1) == modules.length) {
+        //     getNavigation(appConfiguration.navigations); // getting navigations configurations
+        // }
+        // }
     }
 
     // ================================================
@@ -221,7 +237,7 @@
             if ((i + 1) == navigations.length) {
                 setTimeout(function() {
                     w.executeAction('bootstrap');
-                }, 1000);
+                }, 100);
             }
         }
     }
@@ -244,12 +260,22 @@
     /*----------  loading array of script files from given directory  ----------*/
 
 
-    function loadScript(directoryName, filesArr) {
-
-        for (var i = 0; i < filesArr.length; i++) {
-
-            w.load("modules/" + directoryName + "/" + filesArr[i] + '.js');
+    function loadScript(directoryIndex, fileIndex) {
+        debugger;
+        var directoryName = appConfiguration.modules[directoryIndex].name;
+        if (fileIndex < appConfiguration.modules[directoryIndex].dependency.length) {
+            var url = "modules/" + directoryName + "/" + appConfiguration.modules[directoryIndex].dependency[fileIndex] + '.js';
+            fileIndex++;
+            w.load(url, loadScript, directoryIndex, fileIndex);
+        } else {
+            directoryIndex++
+            loadDependencyFiles(directoryIndex);
         }
+
+        // for (var i = 0; i < filesArr.length; i++) {
+        //     w.load(url, loadingModulesAndDependencies, index);
+        //     w.load("modules/" + directoryName + "/" + filesArr[i] + '.js');
+        // }
     }
 
 })(window);

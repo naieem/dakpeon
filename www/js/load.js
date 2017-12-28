@@ -27,11 +27,15 @@
     }
 
     function load(url, callbackfn, index) {
+        console.log(arguments);
+        debugger;
         var s = document.createElement('script');
         s.type = 'text/javascript';
         s.async = true;
         s.src = url;
-        if (callbackfn && index) {
+        if (callbackfn && index && arguments[3]) {
+            s.onload = callbackfn(index, arguments[3]);
+        } else if (callbackfn && index) {
             s.onload = callbackfn(index);
         } else if (callbackfn && !index) {
             s.onload = callbackfn();
